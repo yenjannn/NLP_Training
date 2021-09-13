@@ -22,7 +22,7 @@ def wordExtractor(inputLIST, unify=True):
     else:
         return sorted(resultLIST)
 
-def counterCosineSimilarity(counter01, counter02):
+def counterCosineSimilarity(counter01, counter02, w = 1):
     '''
     計算 counter01 和 counter02 兩者的餘弦相似度
     '''
@@ -30,7 +30,7 @@ def counterCosineSimilarity(counter01, counter02):
     dotprod = sum(counter01.get(k, 0) * counter02.get(k, 0) for k in terms)
     magA = math.sqrt(sum(counter01.get(k, 0)**2 for k in terms))
     magB = math.sqrt(sum(counter02.get(k, 0)**2 for k in terms))
-    return dotprod / (magA * magB)
+    return (dotprod / (magA * magB))*w
 
 
 def lengthSimilarity(counter01, counter02):
@@ -44,8 +44,8 @@ def lengthSimilarity(counter01, counter02):
 
 
 if __name__ == "__main__":
-    username = "" #這裡填入您在 https://api.droidtown.co 使用的帳號 email。若使用空字串，則預設使用每小時 2000 字的公用額度。
-    apikey   = "" #這裡填入您在 https://api.droidtown.co 登入後取得的 api Key。若使用空字串，則預設使用每小時 2000 字的公用額度。
+    username = "105751005@nccu.edu.tw" #這裡填入您在 https://api.droidtown.co 使用的帳號 email。若使用空字串，則預設使用每小時 2000 字的公用額度。
+    apikey   = "ww5BsAoe34@^fl%jjjm*wyjU2Qo*vYE" #這裡填入您在 https://api.droidtown.co 登入後取得的 api Key。若使用空字串，則預設使用每小時 2000 字的公用額度。
 
     articut = Articut(username, apikey)
 
@@ -142,7 +142,7 @@ if __name__ == "__main__":
     print("\n")
 
 
-    # 利用 Counter() 模組計算每個動詞出現的次數
+    # 利用 Counter() 模組計算每個名詞出現的次數
     baseballCOUNT = Counter(wordExtractor(baseballNounLIST, unify=False))
     basketballCOUNT = Counter(wordExtractor(basketballNounLIST, unify=False))
     unknownCOUNT = Counter(wordExtractor(unknownNounLIST, unify=False))

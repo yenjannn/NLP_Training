@@ -20,10 +20,11 @@ def wordExtractor(inputLIST):
 
 
 if __name__ == "__main__":
-    username = "" #這裡填入您在 https://api.droidtown.co 使用的帳號 email。若使用空字串，則預設使用每小時 2000 字的公用額度。
-    apikey   = "" #這裡填入您在 https://api.droidtown.co 登入後取得的 api Key。若使用空字串，則預設使用每小時 2000 字的公用額度。
-
-    articut = Articut(username, apikey)
+    with open("account.info", encoding="utf-8") as f:
+        userinfoDICT = json.loads(f.read())
+        
+    #articut = Articut(username, apikey, level="lv1")
+    articut = Articut(username=userinfoDICT["username"], apikey=userinfoDICT["apikey"]) 
 
     baseballSTR = """馬林魚此戰使用投手車輪戰，4名投手輪番上陣壓制大都會打線，前8局僅被敲出4支安打失1分，
     讓球隊能帶著2-1的領先優勢進入到9局下半。不過馬林魚推出巴斯登板關門，他面對首名打者麥尼爾，就被打出一發陽春砲，
@@ -55,17 +56,17 @@ if __name__ == "__main__":
     # Week02
     # 取得 TF-IDF 特徵詞列表
     baseball_TFIDF = articut.analyse.extract_tags(baseballResultDICT)
-    #print(baseball_TFIDF)
+    print("棒球文本的特徵詞列表:", baseball_TFIDF)
 
     basketball_TFIDF = articut.analyse.extract_tags(basketballResultDICT)
-    #print(basketball_TFIDF)
+    print("籃球文本的特徵詞列表:", basketball_TFIDF)
 
     # 取得「名詞」做為特徵列表
     baseballNounLIST = articut.getNounStemLIST(baseballResultDICT)
-    #print(wordExtractor(baseballNounLIST))
+    print(wordExtractor(baseballNounLIST))
 
     basketballNounLIST = articut.getNounStemLIST(basketballResultDICT)
-    #print(wordExtractor(basketballNounLIST))
+    print(wordExtractor(basketballNounLIST))
 
     # 取得「動詞」做為特徵列表
     baseballVerbLIST = articut.getVerbStemLIST(baseballResultDICT)

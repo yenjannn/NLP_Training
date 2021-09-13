@@ -20,10 +20,11 @@ def wordExtractor(inputLIST):
 
 
 if __name__ == "__main__":
-    username = "" #這裡填入您在 https://api.droidtown.co 使用的帳號 email。若使用空字串，則預設使用每小時 2000 字的公用額度。
-    apikey   = "" #這裡填入您在 https://api.droidtown.co 登入後取得的 api Key。若使用空字串，則預設使用每小時 2000 字的公用額度。
-
-    articut = Articut(username, apikey)
+    with open("account.info", encoding="utf-8") as f:
+        userinfoDICT = json.loads(f.read())
+        
+    #articut = Articut(username, apikey, level="lv1")
+    articut = Articut(username=userinfoDICT["username"], apikey=userinfoDICT["apikey"]) 
 
     baseballSTR = """本週三在紐約的比賽中，馬林魚此戰使用投手車輪戰，4名投手輪番上陣壓制大都會打線，前8局僅被敲出4支安打失1分，
     讓球隊能帶著2-1的領先優勢進入到9局下半。不過馬林魚推出巴斯登板關門，他面對首名打者麥尼爾，就被打出一發陽春砲，
@@ -55,39 +56,39 @@ if __name__ == "__main__":
     # Week03
     # 取出「人」
     baseballPeopleLIST = articut.getPersonLIST(baseballResultDICT)
-    print(wordExtractor(baseballPeopleLIST))
+    print('棒球文本中的「人」:', wordExtractor(baseballPeopleLIST))
 
     basketballPeopleLIST = articut.getPersonLIST(basketballResultDICT)
-    print(wordExtractor(basketballPeopleLIST))
+    print('籃球文本中的「人」:', wordExtractor(basketballPeopleLIST))
 
 
     # 取出「事」
     baseballEventLIST = articut.parse(baseballSTR, userDefinedDictFILE="./mixedDICT.json", level="lv3")["event"]
-    print(baseballEventLIST)
+    print('棒球文本中的「事」:', baseballEventLIST)
 
     basketballEventLIST = articut.parse(basketballSTR, userDefinedDictFILE="./mixedDICT.json", level="lv3")["event"]
-    print(basketballEventLIST)
+    print('籃球文本中的「事」:', basketballEventLIST)
 
 
     # 取出「時」
     baseballTimeLIST = articut.parse(baseballSTR, userDefinedDictFILE="./mixedDICT.json", level="lv3")["time"]
-    print(baseballTimeLIST)
+    print('棒球文本中的「時」:', baseballTimeLIST)
 
     basketballTimeLIST = articut.parse(basketballSTR, userDefinedDictFILE="./mixedDICT.json", level="lv3")["time"]
-    print(basketballTimeLIST)
+    print('籃球文本中的「時」:', basketballTimeLIST)
 
 
     # 取出「地」
     baseballLocLIST = articut.getLocationStemLIST(baseballResultDICT)
-    print(wordExtractor(baseballLocLIST))
+    print('棒球文本中的「地」:', wordExtractor(baseballLocLIST))
 
     basketballLocLIST = articut.getLocationStemLIST(basketballResultDICT)
-    print(wordExtractor(basketballLocLIST))
+    print('籃球文本中的「地」:', wordExtractor(basketballLocLIST))
 
 
     # 取出「物」(即為上一週「抽出名詞」的做法)
     baseballNounLIST = articut.getNounStemLIST(baseballResultDICT)
-    print(wordExtractor(baseballNounLIST))
+    print('棒球文本中的「物」:', wordExtractor(baseballNounLIST))
 
     basketballNounLIST = articut.getNounStemLIST(basketballResultDICT)
-    print(wordExtractor(basketballNounLIST))
+    print('籃球文本中的「物」:', wordExtractor(basketballNounLIST))
